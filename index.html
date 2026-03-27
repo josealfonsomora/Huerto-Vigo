@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huerto Vigo - Mi Huerto en Galicia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-800: #166534;
+  --green-900: #14532d;
+  --earth-50: #fefce8;
+  --earth-100: #fef9c3;
+  --earth-600: #ca8a04;
+  --earth-700: #a16207;
+  --earth-800: #854d0e;
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --text-muted: #78716c;
+  --border: #e7e5e4;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+header {
+  background: linear-gradient(135deg, var(--green-800), var(--green-700));
+  color: white;
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+header .subtitle {
+  opacity: 0.85;
+  font-size: 1.1rem;
+  margin-top: 0.25rem;
+}
+
+section {
+  padding: 2.5rem 0;
+}
+
+section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--green-800);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  margin-top: -1rem;
+  margin-bottom: 1.5rem;
+}
+
+.date-badge {
+  background: var(--green-100);
+  color: var(--green-700);
+  font-size: 0.85rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+.weather-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.weather-icon { font-size: 3rem; }
+.weather-temp { font-size: 2.5rem; font-weight: 700; color: var(--green-700); }
+
+.weather-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.weather-details .detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.weather-details .label { color: var(--text-muted); }
+
+.moon-display {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.moon-visual { font-size: 3.5rem; }
+.moon-phase { font-size: 1.2rem; font-weight: 600; }
+.moon-illumination { color: var(--text-muted); font-size: 0.9rem; }
+
+.moon-advice h3 {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.advice-good, .advice-bad {
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.advice-good li { color: var(--green-700); list-style: none; padding: 0.2rem 0; }
+.advice-good li::before { content: "\2713 "; font-weight: 600; }
+.advice-bad li { color: #b91c1c; list-style: none; padding: 0.2rem 0; }
+.advice-bad li::before { content: "\2717 "; font-weight: 600; }
+
+.frost-indicator { margin-bottom: 1rem; }
+
+.frost-level {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.frost-low { background: #dcfce7; color: #166534; }
+.frost-medium { background: #fef9c3; color: #854d0e; }
+.frost-high { background: #fee2e2; color: #991b1b; }
+
+#frost-details { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+#frost-details .frost-week {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+#frost-details .frost-week:last-child { border-bottom: none; }
+
+.plant-now-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .plant-now-grid { grid-template-columns: 1fr; }
+}
+
+.plant-category {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.crop-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+
+.crop-item:last-child { border-bottom: none; }
+
+.crop-emoji { font-size: 1.5rem; flex-shrink: 0; }
+
+.crop-info { flex: 1; }
+.crop-name { font-weight: 600; font-size: 0.95rem; }
+.crop-notes { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+.crop-meta { font-size: 0.75rem; color: var(--green-600); margin-top: 0.25rem; font-weight: 500; }
+
+.calendar-wrapper {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.calendar-table th {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  background: var(--green-800);
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.calendar-table th:first-child {
+  text-align: left;
+  padding-left: 1rem;
+  min-width: 160px;
+}
+
+.calendar-table td {
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  min-width: 70px;
+}
+
+.calendar-table td:first-child {
+  text-align: left;
+  padding-left: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.calendar-table tbody tr:hover { background: var(--green-50); }
+
+.calendar-cell {
+  padding: 0.3rem 0.2rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: help;
+  line-height: 1.3;
+}
+
+.calendar-table td.current-month {
+  outline: 2px solid var(--green-500);
+  outline-offset: -2px;
+  border-radius: 4px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.suggestion-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.suggestion-emoji { font-size: 1.75rem; }
+.suggestion-name { font-weight: 600; font-size: 1rem; }
+
+.suggestion-season {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.season-spring-summer { background: #fef9c3; color: #854d0e; }
+.season-summer { background: #fed7aa; color: #9a3412; }
+.season-autumn-winter { background: #dbeafe; color: #1e40af; }
+.season-year-round { background: #dcfce7; color: #166534; }
+.season-autumn { background: #fde68a; color: #92400e; }
+.season-autumn-winter-spring { background: #e0e7ff; color: #3730a3; }
+
+.suggestion-notes { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+.suggestion-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--green-600);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+}
+
+.garden-controls { margin-bottom: 1rem; }
+
+.garden-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.garden-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  background: var(--green-800);
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.garden-table td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.garden-table .empty-row td {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem;
+  font-style: italic;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-sembrado { background: #e0e7ff; color: #3730a3; }
+.status-germinando { background: #fef9c3; color: #854d0e; }
+.status-creciendo { background: #dcfce7; color: #166534; }
+.status-floreciendo { background: #fce7f3; color: #9d174d; }
+.status-fructificando { background: #fed7aa; color: #9a3412; }
+.status-cosechando { background: #fee2e2; color: #991b1b; }
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.btn-delete:hover { background: #fee2e2; }
+
+.climate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .climate-grid { grid-template-columns: 1fr; }
+}
+
+.climate-list {
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.climate-list li {
+  padding: 0.4rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.advantages li::before { content: "\2713"; position: absolute; left: 0; color: var(--green-600); font-weight: 600; }
+.challenges li::before { content: "!"; position: absolute; left: 0; color: var(--earth-600); font-weight: 700; }
+
+.temp-chart {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.temp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.temp-bar-label { width: 30px; text-align: right; color: var(--text-muted); font-weight: 500; }
+.temp-bar-container { flex: 1; height: 20px; background: #f3f4f6; border-radius: 4px; position: relative; overflow: hidden; }
+
+.temp-bar {
+  height: 100%;
+  border-radius: 4px;
+  position: absolute;
+  transition: width 0.3s;
+}
+
+.temp-bar-low { background: #93c5fd; }
+.temp-bar-high { background: #f87171; }
+.temp-bar-values { font-size: 0.75rem; color: var(--text-muted); width: 65px; text-align: center; }
+
+.btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.btn-primary { background: var(--green-600); color: white; }
+.btn-primary:hover { background: var(--green-700); }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: #d6d3d1; }
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal h3 { margin-bottom: 1.25rem; }
+
+.form-group { margin-bottom: 1rem; }
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-muted);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+footer {
+  background: var(--green-900);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 600px) {
+  header h1 { font-size: 1.6rem; }
+  section h2 { font-size: 1.2rem; }
+  .calendar-table { font-size: 0.75rem; }
+  .calendar-table td, .calendar-table th { padding: 0.4rem 0.25rem; }
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Huerto Vigo</h1>
+      <p class="subtitle">Mi huerto en Galicia</p>
+    </div>
+  </header>
+
+  <!-- Weather & Moon Dashboard -->
+  <section id="dashboard" class="container">
+    <div class="dashboard-grid">
+      <div class="card weather-card">
+        <h2>Tiempo en Vigo</h2>
+        <div id="weather-content">
+          <div class="weather-main">
+            <span class="weather-icon" id="weather-icon"></span>
+            <span class="weather-temp" id="weather-temp">--°C</span>
+          </div>
+          <div class="weather-details">
+            <div class="detail"><span class="label">Humedad</span><span id="weather-humidity">--%</span></div>
+            <div class="detail"><span class="label">Viento</span><span id="weather-wind">-- km/h</span></div>
+            <div class="detail"><span class="label">Amanecer</span><span id="weather-sunrise">--:--</span></div>
+            <div class="detail"><span class="label">Atardecer</span><span id="weather-sunset">--:--</span></div>
+            <div class="detail"><span class="label">Horas de luz</span><span id="weather-daylight">--h</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card moon-card">
+        <h2>Fase Lunar</h2>
+        <div class="moon-display">
+          <div class="moon-visual" id="moon-visual"></div>
+          <div class="moon-info">
+            <p class="moon-phase" id="moon-phase">--</p>
+            <p class="moon-illumination">Iluminacion: <span id="moon-illum">--</span>%</p>
+          </div>
+        </div>
+        <div class="moon-advice" id="moon-advice">
+          <h3>Consejo lunar para el huerto</h3>
+          <div class="advice-good" id="moon-good"></div>
+          <div class="advice-bad" id="moon-bad"></div>
+        </div>
+      </div>
+
+      <div class="card frost-card">
+        <h2>Riesgo de Helada</h2>
+        <div class="frost-indicator" id="frost-indicator">
+          <div class="frost-level frost-low">BAJO</div>
+        </div>
+        <div id="frost-details"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to Plant Now -->
+  <section id="plant-now" class="container">
+    <h2>Que plantar ahora en Vigo <span class="date-badge" id="current-month">Marzo</span></h2>
+    <div class="plant-now-grid">
+      <div class="plant-category">
+        <h3>Siembra directa al exterior</h3>
+        <div class="crop-list" id="direct-sow-list"></div>
+      </div>
+      <div class="plant-category">
+        <h3>Sembrar en interior / Trasplantar despues</h3>
+        <div class="crop-list" id="transplant-list"></div>
+      </div>
+      <div class="plant-category">
+        <h3>Hierbas aromaticas</h3>
+        <div class="crop-list" id="herbs-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Planting Calendar -->
+  <section id="calendar" class="container">
+    <h2>Calendario de Siembra</h2>
+    <div class="calendar-wrapper">
+      <table class="calendar-table" id="planting-calendar">
+        <thead>
+          <tr>
+            <th>Cultivo</th>
+            <th>Ene</th><th>Feb</th><th>Mar</th><th>Abr</th><th>May</th><th>Jun</th>
+            <th>Jul</th><th>Ago</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dic</th>
+          </tr>
+        </thead>
+        <tbody id="calendar-body"></tbody>
+      </table>
+    </div>
+    <div class="legend" id="calendar-legend"></div>
+  </section>
+
+  <!-- Additional Crops -->
+  <section id="suggestions" class="container">
+    <h2>Cultivos recomendados para Vigo</h2>
+    <p class="section-desc">Cultivos que prosperan en el clima atlantico gallego</p>
+    <div class="suggestions-grid" id="suggestions-grid"></div>
+  </section>
+
+  <!-- My Garden Tracker -->
+  <section id="my-garden" class="container">
+    <h2>Mi Huerto</h2>
+    <p class="section-desc">Registro de lo que has plantado</p>
+    <div class="garden-controls">
+      <button class="btn btn-primary" onclick="openAddPlantModal()">+ Anadir Planta</button>
+    </div>
+    <table class="garden-table" id="garden-table">
+      <thead>
+        <tr>
+          <th>Cultivo</th>
+          <th>Fecha de siembra</th>
+          <th>Metodo</th>
+          <th>Estado</th>
+          <th>Cosecha estimada</th>
+          <th>Notas</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="garden-body">
+        <tr class="empty-row">
+          <td colspan="7">Aun no has anadido ninguna planta. Pulsa "+ Anadir Planta" para empezar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Climate Profile -->
+  <section id="climate" class="container">
+    <h2>Perfil Climatico de Vigo</h2>
+    <div class="climate-grid">
+      <div class="card">
+        <h3>Ventajas</h3>
+        <ul class="climate-list advantages" id="climate-advantages"></ul>
+      </div>
+      <div class="card">
+        <h3>Desafios</h3>
+        <ul class="climate-list challenges" id="climate-challenges"></ul>
+      </div>
+      <div class="card">
+        <h3>Temperaturas medias</h3>
+        <div class="temp-chart" id="temp-chart"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add Plant Modal -->
+  <div class="modal-overlay" id="add-plant-modal">
+    <div class="modal">
+      <h3>Anadir planta al huerto</h3>
+      <form id="add-plant-form" onsubmit="addPlant(event)">
+        <div class="form-group">
+          <label for="plant-name">Cultivo</label>
+          <select id="plant-name" required>
+            <option value="">Seleccionar...</option>
+            <option value="🥬 Lechuga">Lechuga</option>
+            <option value="🍅 Tomate">Tomate</option>
+            <option value="🫑 Pimiento">Pimiento</option>
+            <option value="🧅 Cebolla">Cebolla</option>
+            <option value="🥕 Zanahoria">Zanahoria</option>
+            <option value="🥔 Patata">Patata</option>
+            <option value="🥬 Espinaca">Espinaca</option>
+            <option value="🥬 Acelga">Acelga</option>
+            <option value="🟢 Guisantes">Guisantes</option>
+            <option value="🫘 Habas">Habas</option>
+            <option value="🟣 Remolacha">Remolacha</option>
+            <option value="🔴 Rabano">Rabano</option>
+            <option value="🍆 Berenjena">Berenjena</option>
+            <option value="🥒 Calabacin">Calabacin</option>
+            <option value="🌶️ Pimiento de Padron">Pimiento de Padron</option>
+            <option value="🍓 Fresa">Fresa</option>
+            <option value="🥬 Grelo">Grelo</option>
+            <option value="otro">Otro...</option>
+          </select>
+          <input type="text" id="plant-name-custom" placeholder="Nombre del cultivo" style="display:none">
+        </div>
+        <div class="form-group">
+          <label for="plant-date">Fecha de siembra</label>
+          <input type="date" id="plant-date" required>
+        </div>
+        <div class="form-group">
+          <label for="plant-method">Metodo</label>
+          <select id="plant-method">
+            <option value="Siembra directa">Siembra directa</option>
+            <option value="Semillero interior">Semillero interior</option>
+            <option value="Trasplante">Trasplante</option>
+            <option value="Bulbillos/Sets">Bulbillos/Sets</option>
+            <option value="Esquejes">Esquejes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="plant-status">Estado</label>
+          <select id="plant-status">
+            <option value="Sembrado">Sembrado</option>
+            <option value="Germinando">Germinando</option>
+            <option value="Creciendo">Creciendo</option>
+            <option value="Floreciendo">Floreciendo</option>
+            <option value="Fructificando">Fructificando</option>
+            <option value="Cosechando">Cosechando</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="plant-notes">Notas</label>
+          <textarea id="plant-notes" rows="2" placeholder="Notas adicionales..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeAddPlantModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Anadir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Huerto Vigo - Vigo, Galicia (42.23°N, 8.72°W) - Zona USDA 9b-10a</p>
+    </div>
+  </footer>
+
+  <script>
+// ============================================================
+// Garden Data
+// ============================================================
+var gardenData = {
+  currentWeather: {
+    date: "2026-03-27",
+    temperature_C: 14,
+    humidity: 66,
+    weatherDesc: "Clear",
+    windspeedKmph: 17,
+    sunrise: "07:27 AM",
+    sunset: "07:55 PM",
+    daylight_hours: 12.5
+  },
+  moon: {
+    phase: "Waxing Gibbous",
+    illumination: 63,
+    moonrise: "01:51 PM",
+    moonset: "04:42 AM",
+    gardeningAdvice: {
+      summary_es: "Luna creciente gibosa: fase favorable para cultivos de fruto y hoja aerea.",
+      recommended: [
+        "Trasplantar plantulas de hojas verdes",
+        "Sembrar cultivos de fruto aereo",
+        "Injertar arboles frutales",
+        "Fertilizar plantas en crecimiento activo"
+      ],
+      avoid: [
+        "Plantar hortalizas de raiz (esperar a luna menguante)",
+        "Poda intensa",
+        "Cosechar para almacenamiento"
+      ]
+    }
+  },
+  frostRisk: {
+    currentRisk: "low",
+    lastFrostDateAvg: "15 de Marzo",
+    details: "La ubicacion costera de Vigo modera las temperaturas. La fecha media de ultima helada es mediados de marzo. Con minimas nocturnas de 5-6\u00b0C, aun es posible helada ligera en valles interiores pero improbable a nivel del mar.",
+    weeklyOutlook: [
+      { period: "Mar 27-29", minTempC: 5, risk: "bajo", note: "Cielos despejados pueden permitir enfriamiento. Proteger plantulas tiernas por la noche." },
+      { period: "Mar 30 - Abr 5", minTempC: 7, risk: "muy bajo", note: "Temperaturas al alza. La mayoria de cultivos seguros." },
+      { period: "Abr 6-15", minTempC: 9, risk: "nulo", note: "Riesgo de helada esencialmente terminado." }
+    ]
+  },
+  plantNow: {
+    directSow: [
+      { name: "Lechuga", emoji: "\ud83e\udd6c", notes: "Sembrar cada 2-3 semanas para cosecha continua.", daysToHarvest: "45-60", spacing_cm: 25 },
+      { name: "Espinaca", emoji: "\ud83e\udd6c", notes: "Plantar ahora antes del calor. Prefiere semisombra.", daysToHarvest: "40-50", spacing_cm: 15 },
+      { name: "Guisantes", emoji: "\ud83d\udfe2", notes: "Ultima oportunidad antes de que haga demasiado calor.", daysToHarvest: "60-70", spacing_cm: 8 },
+      { name: "Zanahoria", emoji: "\ud83e\udd55", notes: "Sembrar directamente. No trasplanta bien.", daysToHarvest: "70-80", spacing_cm: 5 },
+      { name: "Remolacha", emoji: "\ud83d\udfe3", notes: "Excelente para el clima suave de Vigo.", daysToHarvest: "55-70", spacing_cm: 10 },
+      { name: "Rabano", emoji: "\ud83d\udd34", notes: "Cosecha rapida. Ideal entre cultivos lentos.", daysToHarvest: "25-35", spacing_cm: 5 },
+      { name: "Habas", emoji: "\ud83e\uded8", notes: "Basico gallego. Aun se puede sembrar para cosecha tardana.", daysToHarvest: "80-100", spacing_cm: 20 },
+      { name: "Patata", emoji: "\ud83e\udd54", notes: "Momento ideal para plantar en Galicia. Aporcar segun crece.", daysToHarvest: "90-120", spacing_cm: 35 },
+      { name: "Acelga", emoji: "\ud83e\udd6c", notes: "Muy productiva en Vigo. Cosecha cortando y volvera a crecer.", daysToHarvest: "50-60", spacing_cm: 30 },
+      { name: "Cebolla (bulbillos)", emoji: "\ud83e\uddc5", notes: "Plantar bulbillos ahora para cosecha de verano.", daysToHarvest: "90-120", spacing_cm: 15 }
+    ],
+    transplant: [
+      { name: "Tomate", emoji: "\ud83c\udf45", notes: "Sembrar en interior AHORA. Trasplantar en abril/mayo.", daysToHarvest: "70-90", spacing_cm: 50 },
+      { name: "Pimiento", emoji: "\ud83e\uded1", notes: "Sembrar en interior. Necesita 25\u00b0C para germinar. Trasplantar en mayo.", daysToHarvest: "70-90", spacing_cm: 45 },
+      { name: "Berenjena", emoji: "\ud83c\udf46", notes: "Sembrar en interior. Trasplantar a finales de mayo.", daysToHarvest: "80-100", spacing_cm: 50 },
+      { name: "Calabacin", emoji: "\ud83e\udd52", notes: "Sembrar en interior ahora o directo desde mediados de abril.", daysToHarvest: "50-60", spacing_cm: 80 }
+    ],
+    herbs: [
+      { name: "Perejil", emoji: "\ud83c\udf3f", notes: "Germina lento. Remojar semillas 24h antes." },
+      { name: "Cilantro", emoji: "\ud83c\udf3f", notes: "Sembrar ahora que hace fresco. Se espiga rapido con calor." },
+      { name: "Eneldo", emoji: "\ud83c\udf3f", notes: "Siembra directa. Atrae insectos beneficiosos." },
+      { name: "Albahaca", emoji: "\ud83c\udf3f", notes: "Sembrar en interior. Trasplantar cuando noches >12\u00b0C." },
+      { name: "Cebollino", emoji: "\ud83c\udf3f", notes: "Muy facil. Se puede dividir matas existentes." },
+      { name: "Menta", emoji: "\ud83c\udf3f", notes: "Plantar en maceta para evitar invasion. Le encanta la humedad de Vigo." }
+    ]
+  },
+  plantingCalendar: {
+    crops: {
+      lechuga: {
+        name: "\ud83e\udd6c Lechuga",
+        schedule: {
+          jan: { action: "sow_protected", label: "Protegido" },
+          feb: { action: "sow_protected", label: "Protegido" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "sow_direct", label: "Directo" },
+          jun: { action: "sow_shade", label: "Con sombra" },
+          jul: { action: "rest", label: "Descanso" },
+          aug: { action: "sow_late", label: "Tard." },
+          sep: { action: "sow_direct", label: "Directo" },
+          oct: { action: "sow_direct", label: "Directo" },
+          nov: { action: "sow_protected", label: "Protegido" },
+          dec: { action: "sow_protected", label: "Protegido" }
+        }
+      },
+      tomate: {
+        name: "\ud83c\udf45 Tomate",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "sow_indoors", label: "Interior" },
+          mar: { action: "sow_indoors", label: "Interior" },
+          apr: { action: "harden_off", label: "Endurecer" },
+          may: { action: "transplant", label: "Trasplantar" },
+          jun: { action: "grow_maintain", label: "Crecer" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "harvest", label: "Cosechar" },
+          oct: { action: "harvest_end", label: "Fin cosecha" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      pimiento: {
+        name: "\ud83e\uded1 Pimiento",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "sow_indoors", label: "Interior" },
+          mar: { action: "sow_indoors", label: "Interior" },
+          apr: { action: "harden_off", label: "Endurecer" },
+          may: { action: "transplant", label: "Trasplantar" },
+          jun: { action: "grow_maintain", label: "Crecer" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "harvest", label: "Cosechar" },
+          oct: { action: "harvest_end", label: "Fin cosecha" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      cebolla: {
+        name: "\ud83e\uddc5 Cebolla",
+        schedule: {
+          jan: { action: "sow_indoors", label: "Interior" },
+          feb: { action: "sow_direct", label: "Sembrar" },
+          mar: { action: "plant_sets", label: "Bulbillos" },
+          apr: { action: "grow_maintain", label: "Crecer" },
+          may: { action: "grow_maintain", label: "Crecer" },
+          jun: { action: "harvest", label: "Cosechar" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "sow_autumn", label: "Otono" },
+          sep: { action: "plant_sets", label: "Bulbillos" },
+          oct: { action: "grow_maintain", label: "Crecer" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      }
+    },
+    legend: {
+      sow_indoors: { color: "#FDE68A", label: "Sembrar interior" },
+      sow_protected: { color: "#A7F3D0", label: "Sembrar protegido" },
+      sow_direct: { color: "#6EE7B7", label: "Sembrar directo" },
+      sow_shade: { color: "#D1FAE5", label: "Sembrar con sombra" },
+      sow_late: { color: "#BBF7D0", label: "Siembra tardia" },
+      sow_autumn: { color: "#FED7AA", label: "Siembra otono" },
+      harden_off: { color: "#FEF08A", label: "Endurecer" },
+      transplant: { color: "#86EFAC", label: "Trasplantar" },
+      plant_sets: { color: "#34D399", label: "Plantar bulbillos" },
+      grow_maintain: { color: "#4ADE80", label: "Crecer / Mantener" },
+      harvest: { color: "#F87171", label: "Cosechar" },
+      harvest_end: { color: "#FBBF24", label: "Fin cosecha" },
+      rest: { color: "#E5E7EB", label: "Descanso" }
+    }
+  },
+  additionalCrops: [
+    { name: "Grelo", emoji: "\ud83e\udd6c", category: "Basico gallego", season: "autumn-winter", notes: "EL vegetal gallego por excelencia. Sembrar en verano para cosecha invernal. Esencial para caldo gallego y lacon con grelos." },
+    { name: "Pimiento de Padron", emoji: "\ud83c\udf36\ufe0f", category: "Basico gallego", season: "summer", notes: "Famoso pimiento gallego. Sembrar en interior feb-mar, trasplantar en mayo. 'Uns pican e outros non.'" },
+    { name: "Judia verde", emoji: "\ud83e\uded8", category: "Legumbre", season: "spring-summer", notes: "Sembrar directo despues de heladas. Muy productivas en verano gallego." },
+    { name: "Calabaza", emoji: "\ud83c\udf83", category: "Cucurbitacea", season: "summer", notes: "Sembrar directo desde finales de abril. Necesita espacio." },
+    { name: "Col / Repollo", emoji: "\ud83e\udd6c", category: "Brassica", season: "year-round", notes: "Multiples temporadas posibles. Esencial para caldo gallego." },
+    { name: "Berza gallega", emoji: "\ud83e\udd6c", category: "Basico gallego", season: "autumn-winter-spring", notes: "Col rizada tradicional para guisos. Muy resistente. Mejora con heladas." },
+    { name: "Fresa", emoji: "\ud83c\udf53", category: "Fruta", season: "spring-summer", notes: "Plantar ahora. El suelo acido gallego es perfecto." },
+    { name: "Frambuesa", emoji: "\ud83e\uded0", category: "Fruta", season: "summer", notes: "Plantar raiz desnuda ahora. Prospera en clima gallego." },
+    { name: "Arandano", emoji: "\ud83e\uded0", category: "Fruta", season: "summer", notes: "El suelo acido de Galicia (pH 4.5-5.5) es PERFECTO. Cultivo estrella de la region." },
+    { name: "Kiwi", emoji: "\ud83e\udd5d", category: "Fruta", season: "autumn", notes: "Galicia es la mayor productora de kiwi de Espana. Necesita planta macho + hembra." },
+    { name: "Vid Albarino", emoji: "\ud83c\udf47", category: "Fruta", season: "autumn", notes: "Uva nativa de Rias Baixas. Plantar ahora. Emparrar en parral tradicional." },
+    { name: "Limon", emoji: "\ud83c\udf4b", category: "Citrico", season: "year-round", notes: "Los inviernos suaves de Vigo permiten citricos al exterior. Meyer es el mas resistente." }
+  ],
+  climateProfile: {
+    advantages: [
+      "Temporada de cultivo durante todo el ano con proteccion",
+      "Raramente hace demasiado frio o calor",
+      "La lluvia natural reduce el riego (excepto jul-ago)",
+      "Excelente para hojas verdes, brassicas, frutos del bosque",
+      "Suelo acido perfecto para arandanos, fresas, kiwis",
+      "Larga temporada para cultivos de clima fresco"
+    ],
+    challenges: [
+      "Enfermedades fungicas por humedad (mildiu, botritis)",
+      "Babosas y caracoles por condiciones humedas",
+      "Suelo acido puede necesitar cal para algunos cultivos",
+      "Vientos atlanticos fuertes en zonas expuestas",
+      "Temporada calida corta limita algunos cultivos mediterraneos"
+    ]
+  },
+  temperatureRanges: {
+    mar: { high: 16, low: 7 },
+    apr: { high: 17, low: 8 },
+    may: { high: 19, low: 11 },
+    jun: { high: 22, low: 13 },
+    jul: { high: 25, low: 15 },
+    aug: { high: 25, low: 15 },
+    sep: { high: 23, low: 13 },
+    oct: { high: 19, low: 11 },
+    nov: { high: 15, low: 8 },
+    dec: { high: 13, low: 6 }
+  }
+};
+
+// ============================================================
+// Constants
+// ============================================================
+var MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+var MONTH_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+var STORAGE_KEY = 'huerto-vigo-plants';
+
+// ============================================================
+// Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  renderWeather();
+  renderMoon();
+  renderFrost();
+  renderPlantNow();
+  renderCalendar();
+  renderSuggestions();
+  renderClimate();
+  renderGarden();
+  setupPlantNameToggle();
+  document.getElementById('current-month').textContent = MONTH_FULL[new Date().getMonth()];
+});
+
+// ============================================================
+// Weather
+// ============================================================
+function renderWeather() {
+  var w = gardenData.currentWeather;
+  var iconMap = { 'Clear': '\u2600\ufe0f', 'Sunny': '\u2600\ufe0f', 'Partly Cloudy': '\u26c5', 'Cloudy': '\u2601\ufe0f', 'Rain': '\ud83c\udf27\ufe0f', 'Storm': '\u26c8\ufe0f' };
+  document.getElementById('weather-icon').textContent = iconMap[w.weatherDesc] || '\u2600\ufe0f';
+  document.getElementById('weather-temp').textContent = w.temperature_C + '\u00b0C';
+  document.getElementById('weather-humidity').textContent = w.humidity + '%';
+  document.getElementById('weather-wind').textContent = w.windspeedKmph + ' km/h';
+  document.getElementById('weather-sunrise').textContent = w.sunrise;
+  document.getElementById('weather-sunset').textContent = w.sunset;
+  document.getElementById('weather-daylight').textContent = w.daylight_hours + 'h';
+}
+
+// ============================================================
+// Moon
+// ============================================================
+function renderMoon() {
+  var m = gardenData.moon;
+  var moonIcons = {
+    'New Moon': '\ud83c\udf11', 'Waxing Crescent': '\ud83c\udf12', 'First Quarter': '\ud83c\udf13',
+    'Waxing Gibbous': '\ud83c\udf14', 'Full Moon': '\ud83c\udf15', 'Waning Gibbous': '\ud83c\udf16',
+    'Last Quarter': '\ud83c\udf17', 'Waning Crescent': '\ud83c\udf18'
+  };
+  var phaseNames = {
+    'New Moon': 'Luna Nueva', 'Waxing Crescent': 'Creciente',
+    'First Quarter': 'Cuarto Creciente', 'Waxing Gibbous': 'Gibosa Creciente',
+    'Full Moon': 'Luna Llena', 'Waning Gibbous': 'Gibosa Menguante',
+    'Last Quarter': 'Cuarto Menguante', 'Waning Crescent': 'Menguante'
+  };
+
+  document.getElementById('moon-visual').textContent = moonIcons[m.phase] || '\ud83c\udf14';
+  document.getElementById('moon-phase').textContent = phaseNames[m.phase] || m.phase;
+  document.getElementById('moon-illum').textContent = m.illumination;
+
+  var advice = m.gardeningAdvice;
+  document.getElementById('moon-good').innerHTML = '<ul>' +
+    advice.recommended.map(function(r) { return '<li>' + r + '</li>'; }).join('') + '</ul>';
+  document.getElementById('moon-bad').innerHTML = '<ul>' +
+    advice.avoid.map(function(a) { return '<li>' + a + '</li>'; }).join('') + '</ul>';
+}
+
+// ============================================================
+// Frost
+// ============================================================
+function renderFrost() {
+  var f = gardenData.frostRisk;
+  var indicator = document.getElementById('frost-indicator');
+  var levelClass = f.currentRisk === 'low' ? 'frost-low' : f.currentRisk === 'medium' ? 'frost-medium' : 'frost-high';
+  var levelText = f.currentRisk === 'low' ? 'BAJO' : f.currentRisk === 'medium' ? 'MEDIO' : 'ALTO';
+  indicator.innerHTML = '<div class="frost-level ' + levelClass + '">' + levelText + '</div>';
+
+  var details = document.getElementById('frost-details');
+  details.innerHTML = '<p style="margin-bottom:0.75rem">' + f.details + '</p>' +
+    f.weeklyOutlook.map(function(w) {
+      return '<div class="frost-week"><strong>' + w.period + '</strong> (min ' + w.minTempC + '\u00b0C) \u2014 ' + w.note + '</div>';
+    }).join('');
+}
+
+// ============================================================
+// Plant Now
+// ============================================================
+function renderPlantNow() {
+  var pn = gardenData.plantNow;
+
+  document.getElementById('direct-sow-list').innerHTML = pn.directSow.map(function(crop) {
+    return '<div class="crop-item">' +
+      '<span class="crop-emoji">' + crop.emoji + '</span>' +
+      '<div class="crop-info">' +
+      '<div class="crop-name">' + crop.name + '</div>' +
+      '<div class="crop-notes">' + crop.notes + '</div>' +
+      '<div class="crop-meta">' + crop.daysToHarvest + ' dias | ' + crop.spacing_cm + 'cm entre plantas</div>' +
+      '</div></div>';
+  }).join('');
+
+  document.getElementById('transplant-list').innerHTML = pn.transplant.map(function(crop) {
+    return '<div class="crop-item">' +
+      '<span class="crop-emoji">' + crop.emoji + '</span>' +
+      '<div class="crop-info">' +
+      '<div class="crop-name">' + crop.name + '</div>' +
+      '<div class="crop-notes">' + crop.notes + '</div>' +
+      '<div class="crop-meta">' + crop.daysToHarvest + ' dias | ' + crop.spacing_cm + 'cm entre plantas</div>' +
+      '</div></div>';
+  }).join('');
+
+  document.getElementById('herbs-list').innerHTML = pn.herbs.map(function(herb) {
+    return '<div class="crop-item">' +
+      '<span class="crop-emoji">' + herb.emoji + '</span>' +
+      '<div class="crop-info">' +
+      '<div class="crop-name">' + herb.name + '</div>' +
+      '<div class="crop-notes">' + herb.notes + '</div>' +
+      '</div></div>';
+  }).join('');
+}
+
+// ============================================================
+// Calendar
+// ============================================================
+function renderCalendar() {
+  var cal = gardenData.plantingCalendar;
+  var body = document.getElementById('calendar-body');
+  var currentMonthIdx = new Date().getMonth();
+
+  var keys = Object.keys(cal.crops);
+  for (var k = 0; k < keys.length; k++) {
+    var crop = cal.crops[keys[k]];
+    var row = document.createElement('tr');
+    var html = '<td>' + crop.name + '</td>';
+
+    for (var i = 0; i < MONTHS.length; i++) {
+      var cell = crop.schedule[MONTHS[i]];
+      var legend = cal.legend[cell.action];
+      var isCurrent = i === currentMonthIdx;
+      html += '<td' + (isCurrent ? ' class="current-month"' : '') + '>' +
+        '<div class="calendar-cell" style="background:' + legend.color + '" title="' + legend.label + '">' +
+        cell.label + '</div></td>';
+    }
+
+    row.innerHTML = html;
+    body.appendChild(row);
+  }
+
+  var legendEl = document.getElementById('calendar-legend');
+  var legendKeys = Object.keys(cal.legend);
+  for (var j = 0; j < legendKeys.length; j++) {
+    var info = cal.legend[legendKeys[j]];
+    legendEl.innerHTML += '<div class="legend-item">' +
+      '<span class="legend-color" style="background:' + info.color + '"></span>' +
+      '<span>' + info.label + '</span></div>';
+  }
+}
+
+// ============================================================
+// Suggestions
+// ============================================================
+function renderSuggestions() {
+  var grid = document.getElementById('suggestions-grid');
+  var seasonClasses = {
+    'autumn-winter': 'season-autumn-winter',
+    'summer': 'season-summer',
+    'spring-summer': 'season-spring-summer',
+    'year-round': 'season-year-round',
+    'autumn': 'season-autumn',
+    'autumn-winter-spring': 'season-autumn-winter-spring'
+  };
+  var seasonLabels = {
+    'autumn-winter': 'Otono-Invierno',
+    'summer': 'Verano',
+    'spring-summer': 'Primavera-Verano',
+    'year-round': 'Todo el ano',
+    'autumn': 'Otono',
+    'autumn-winter-spring': 'Otono-Inv-Prim'
+  };
+
+  grid.innerHTML = gardenData.additionalCrops.map(function(crop) {
+    return '<div class="suggestion-card">' +
+      '<div class="suggestion-header">' +
+      '<span class="suggestion-emoji">' + crop.emoji + '</span>' +
+      '<span class="suggestion-name">' + crop.name + '</span>' +
+      '</div>' +
+      '<span class="suggestion-season ' + (seasonClasses[crop.season] || '') + '">' +
+      (seasonLabels[crop.season] || crop.season) + '</span>' +
+      '<p class="suggestion-notes">' + crop.notes + '</p>' +
+      '<span class="suggestion-category">' + crop.category + '</span>' +
+      '</div>';
+  }).join('');
+}
+
+// ============================================================
+// Climate
+// ============================================================
+function renderClimate() {
+  var cp = gardenData.climateProfile;
+
+  document.getElementById('climate-advantages').innerHTML =
+    cp.advantages.map(function(a) { return '<li>' + a + '</li>'; }).join('');
+  document.getElementById('climate-challenges').innerHTML =
+    cp.challenges.map(function(c) { return '<li>' + c + '</li>'; }).join('');
+
+  var tempChart = document.getElementById('temp-chart');
+  var temps = gardenData.temperatureRanges;
+  var maxTemp = 30;
+  var monthLabels = { mar: 'Mar', apr: 'Abr', may: 'May', jun: 'Jun', jul: 'Jul', aug: 'Ago', sep: 'Sep', oct: 'Oct', nov: 'Nov', dec: 'Dic' };
+
+  var tempKeys = Object.keys(temps);
+  for (var i = 0; i < tempKeys.length; i++) {
+    var month = tempKeys[i];
+    var data = temps[month];
+    var lowPct = (data.low / maxTemp) * 100;
+    var highPct = (data.high / maxTemp) * 100;
+
+    tempChart.innerHTML += '<div class="temp-bar-row">' +
+      '<span class="temp-bar-label">' + monthLabels[month] + '</span>' +
+      '<div class="temp-bar-container">' +
+      '<div class="temp-bar temp-bar-low" style="width:' + lowPct + '%"></div>' +
+      '<div class="temp-bar temp-bar-high" style="width:' + highPct + '%"></div>' +
+      '</div>' +
+      '<span class="temp-bar-values">' + data.low + '\u00b0 / ' + data.high + '\u00b0</span>' +
+      '</div>';
+  }
+}
+
+// ============================================================
+// Garden Tracker (localStorage)
+// ============================================================
+function getPlants() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function savePlants(plants) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(plants));
+}
+
+function renderGarden() {
+  var plants = getPlants();
+  var body = document.getElementById('garden-body');
+
+  if (plants.length === 0) {
+    body.innerHTML = '<tr class="empty-row"><td colspan="7">Aun no has anadido ninguna planta. Pulsa "+ Anadir Planta" para empezar.</td></tr>';
+    return;
+  }
+
+  body.innerHTML = plants.map(function(p, idx) {
+    var sowDate = new Date(p.date);
+    var harvestDays = p.harvestDays || 60;
+    var harvestDate = new Date(sowDate.getTime() + harvestDays * 86400000);
+    var statusClass = 'status-' + p.status.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    return '<tr>' +
+      '<td><strong>' + p.name + '</strong></td>' +
+      '<td>' + formatDate(p.date) + '</td>' +
+      '<td>' + p.method + '</td>' +
+      '<td><span class="status-badge ' + statusClass + '">' + p.status + '</span></td>' +
+      '<td>' + formatDate(harvestDate.toISOString().slice(0, 10)) + '</td>' +
+      '<td>' + (p.notes || '-') + '</td>' +
+      '<td><button class="btn-delete" onclick="deletePlant(' + idx + ')">Eliminar</button></td>' +
+      '</tr>';
+  }).join('');
+}
+
+function formatDate(dateStr) {
+  var d = new Date(dateStr);
+  return d.getDate() + ' ' + MONTH_FULL[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear();
+}
+
+function openAddPlantModal() {
+  document.getElementById('add-plant-modal').classList.add('active');
+  document.getElementById('plant-date').valueAsDate = new Date();
+}
+
+function closeAddPlantModal() {
+  document.getElementById('add-plant-modal').classList.remove('active');
+  document.getElementById('add-plant-form').reset();
+}
+
+function addPlant(e) {
+  e.preventDefault();
+  var nameSelect = document.getElementById('plant-name');
+  var nameCustom = document.getElementById('plant-name-custom');
+  var name = nameSelect.value === 'otro' ? nameCustom.value : nameSelect.value;
+
+  if (!name) return;
+
+  var harvestMap = {
+    'Lechuga': 50, 'Tomate': 80, 'Pimiento': 80, 'Cebolla': 100,
+    'Zanahoria': 75, 'Patata': 105, 'Espinaca': 45, 'Acelga': 55,
+    'Guisantes': 65, 'Habas': 90, 'Remolacha': 60, 'Rabano': 30,
+    'Berenjena': 90, 'Calabacin': 55, 'Padron': 80, 'Fresa': 90, 'Grelo': 60
+  };
+
+  var cropKey = Object.keys(harvestMap).find(function(k) { return name.indexOf(k) !== -1; }) || '';
+  var harvestDays = harvestMap[cropKey] || 60;
+
+  var plant = {
+    name: name,
+    date: document.getElementById('plant-date').value,
+    method: document.getElementById('plant-method').value,
+    status: document.getElementById('plant-status').value,
+    notes: document.getElementById('plant-notes').value,
+    harvestDays: harvestDays
+  };
+
+  var plants = getPlants();
+  plants.push(plant);
+  savePlants(plants);
+  renderGarden();
+  closeAddPlantModal();
+}
+
+function deletePlant(idx) {
+  var plants = getPlants();
+  plants.splice(idx, 1);
+  savePlants(plants);
+  renderGarden();
+}
+
+function setupPlantNameToggle() {
+  var select = document.getElementById('plant-name');
+  var custom = document.getElementById('plant-name-custom');
+  select.addEventListener('change', function() {
+    custom.style.display = select.value === 'otro' ? 'block' : 'none';
+    if (select.value === 'otro') custom.focus();
+  });
+}
+  </script>
+</body>
+</html>
