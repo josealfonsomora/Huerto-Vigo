@@ -597,12 +597,15 @@ footer {
             <span class="weather-temp" id="weather-temp">--°C</span>
           </div>
           <div class="weather-details">
+            <div class="detail"><span class="label">Sensacion</span><span id="weather-feels">--°C</span></div>
             <div class="detail"><span class="label">Humedad</span><span id="weather-humidity">--%</span></div>
             <div class="detail"><span class="label">Viento</span><span id="weather-wind">-- km/h</span></div>
+            <div class="detail"><span class="label">Presion</span><span id="weather-pressure">-- mb</span></div>
             <div class="detail"><span class="label">Amanecer</span><span id="weather-sunrise">--:--</span></div>
             <div class="detail"><span class="label">Atardecer</span><span id="weather-sunset">--:--</span></div>
             <div class="detail"><span class="label">Horas de luz</span><span id="weather-daylight">--h</span></div>
           </div>
+          <div id="weather-forecast" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem"></div>
         </div>
       </div>
 
@@ -748,6 +751,15 @@ footer {
             <option value="🌶️ Pimiento de Padron">Pimiento de Padron</option>
             <option value="🍓 Fresa">Fresa</option>
             <option value="🥬 Grelo">Grelo</option>
+            <option value="🧄 Ajo">Ajo</option>
+            <option value="🥬 Nabo">Nabo</option>
+            <option value="🥬 Col / Repollo">Col / Repollo</option>
+            <option value="🥒 Pepino">Pepino</option>
+            <option value="🍈 Melon">Melon</option>
+            <option value="🍉 Sandia">Sandia</option>
+            <option value="🥦 Brocoli">Brocoli</option>
+            <option value="🥦 Coliflor">Coliflor</option>
+            <option value="🥬 Puerro">Puerro</option>
             <option value="otro">Otro...</option>
           </select>
           <input type="text" id="plant-name-custom" placeholder="Nombre del cultivo" style="display:none">
@@ -801,43 +813,51 @@ footer {
 // ============================================================
 var gardenData = {
   currentWeather: {
-    date: "2026-03-27",
-    temperature_C: 14,
-    humidity: 66,
-    weatherDesc: "Clear",
-    windspeedKmph: 17,
-    sunrise: "07:27 AM",
-    sunset: "07:55 PM",
-    daylight_hours: 12.5
+    date: "2026-03-30",
+    temperature_C: 6,
+    feelsLike_C: 4,
+    humidity: 74,
+    weatherDesc: "Sunny",
+    windspeedKmph: 11,
+    pressure_mb: 1034,
+    sunrise: "08:21 AM",
+    sunset: "08:58 PM",
+    daylight_hours: 12.6,
+    forecast: [
+      { date: "2026-03-30", maxC: 20, minC: 6, rain: "0%" },
+      { date: "2026-03-31", maxC: 22, minC: 8, rain: "0%" },
+      { date: "2026-04-01", maxC: 18, minC: 8, rain: "0%" }
+    ]
   },
   moon: {
     phase: "Waxing Gibbous",
-    illumination: 63,
-    moonrise: "01:51 PM",
-    moonset: "04:42 AM",
+    illumination: 90,
+    moonrise: "06:28 PM",
+    moonset: "07:09 AM",
     gardeningAdvice: {
-      summary_es: "Luna creciente gibosa: fase favorable para cultivos de fruto y hoja aerea.",
+      summary_es: "Luna gibosa creciente al 90%: casi llena. Muy favorable para cultivos aereos y trasplantes.",
       recommended: [
-        "Trasplantar plantulas de hojas verdes",
-        "Sembrar cultivos de fruto aereo",
+        "Trasplantar plantulas de hojas verdes y frutos",
+        "Sembrar cultivos de fruto aereo (tomate, pimiento en semillero)",
         "Injertar arboles frutales",
-        "Fertilizar plantas en crecimiento activo"
+        "Fertilizar plantas en crecimiento activo",
+        "Abonar el suelo antes de la luna llena"
       ],
       avoid: [
         "Plantar hortalizas de raiz (esperar a luna menguante)",
         "Poda intensa",
-        "Cosechar para almacenamiento"
+        "Cosechar para almacenamiento largo"
       ]
     }
   },
   frostRisk: {
     currentRisk: "low",
     lastFrostDateAvg: "15 de Marzo",
-    details: "La ubicacion costera de Vigo modera las temperaturas. La fecha media de ultima helada es mediados de marzo. Con minimas nocturnas de 5-6\u00b0C, aun es posible helada ligera en valles interiores pero improbable a nivel del mar.",
+    details: "Manana fria (6\u00b0C) pero con sol y subida a 20\u00b0C. Presion alta (1034mb) indica estabilidad. Las proximas noches seran frescas pero sin riesgo real de helada a nivel del mar.",
     weeklyOutlook: [
-      { period: "Mar 27-29", minTempC: 5, risk: "bajo", note: "Cielos despejados pueden permitir enfriamiento. Proteger plantulas tiernas por la noche." },
-      { period: "Mar 30 - Abr 5", minTempC: 7, risk: "muy bajo", note: "Temperaturas al alza. La mayoria de cultivos seguros." },
-      { period: "Abr 6-15", minTempC: 9, risk: "nulo", note: "Riesgo de helada esencialmente terminado." }
+      { period: "Mar 30 - Abr 1", minTempC: 6, risk: "bajo", note: "Mananas frias, tardes calidas (20-22\u00b0C). Proteger plantulas tiernas por la noche." },
+      { period: "Abr 2-8", minTempC: 8, risk: "muy bajo", note: "Temperaturas estables. Buen momento para trasplantar al exterior." },
+      { period: "Abr 9-15", minTempC: 10, risk: "nulo", note: "Riesgo de helada terminado. Todos los cultivos seguros al exterior." }
     ]
   },
   plantNow: {
@@ -851,13 +871,20 @@ var gardenData = {
       { name: "Habas", emoji: "\ud83e\uded8", notes: "Basico gallego. Aun se puede sembrar para cosecha tardana.", daysToHarvest: "80-100", spacing_cm: 20 },
       { name: "Patata", emoji: "\ud83e\udd54", notes: "Momento ideal para plantar en Galicia. Aporcar segun crece.", daysToHarvest: "90-120", spacing_cm: 35 },
       { name: "Acelga", emoji: "\ud83e\udd6c", notes: "Muy productiva en Vigo. Cosecha cortando y volvera a crecer.", daysToHarvest: "50-60", spacing_cm: 30 },
-      { name: "Cebolla (bulbillos)", emoji: "\ud83e\uddc5", notes: "Plantar bulbillos ahora para cosecha de verano.", daysToHarvest: "90-120", spacing_cm: 15 }
+      { name: "Cebolla (bulbillos)", emoji: "\ud83e\uddc5", notes: "Plantar bulbillos ahora para cosecha de verano.", daysToHarvest: "90-120", spacing_cm: 15 },
+      { name: "Nabo", emoji: "\ud83e\udd6c", notes: "Siembra directa. Cosecha rapida. Hojas tambien comestibles.", daysToHarvest: "45-60", spacing_cm: 10 },
+      { name: "Col / Repollo", emoji: "\ud83e\udd6c", notes: "Sembrar directo ahora. Base del caldo gallego.", daysToHarvest: "80-100", spacing_cm: 45 },
+      { name: "Ajo (dientes)", emoji: "\ud83e\uddc4", notes: "Ultima oportunidad de plantar dientes de ajo de primavera.", daysToHarvest: "90-150", spacing_cm: 15 }
     ],
     transplant: [
       { name: "Tomate", emoji: "\ud83c\udf45", notes: "Sembrar en interior AHORA. Trasplantar en abril/mayo.", daysToHarvest: "70-90", spacing_cm: 50 },
       { name: "Pimiento", emoji: "\ud83e\uded1", notes: "Sembrar en interior. Necesita 25\u00b0C para germinar. Trasplantar en mayo.", daysToHarvest: "70-90", spacing_cm: 45 },
+      { name: "Pimiento de Padron", emoji: "\ud83c\udf36\ufe0f", notes: "Igual que pimientos. Clasico gallego. Trasplantar mayo.", daysToHarvest: "70-85", spacing_cm: 40 },
       { name: "Berenjena", emoji: "\ud83c\udf46", notes: "Sembrar en interior. Trasplantar a finales de mayo.", daysToHarvest: "80-100", spacing_cm: 50 },
-      { name: "Calabacin", emoji: "\ud83e\udd52", notes: "Sembrar en interior ahora o directo desde mediados de abril.", daysToHarvest: "50-60", spacing_cm: 80 }
+      { name: "Calabacin", emoji: "\ud83e\udd52", notes: "Sembrar en interior ahora o directo desde mediados de abril.", daysToHarvest: "50-60", spacing_cm: 80 },
+      { name: "Pepino", emoji: "\ud83e\udd52", notes: "Sembrar en interior. Trasplantar cuando noches >12\u00b0C.", daysToHarvest: "55-70", spacing_cm: 40 },
+      { name: "Melon", emoji: "\ud83c\udf48", notes: "Sembrar en interior ahora. Necesita el verano mas calido posible.", daysToHarvest: "80-100", spacing_cm: 80 },
+      { name: "Sandia", emoji: "\ud83c\udf49", notes: "Sembrar en interior. Trasplantar mayo en zona soleada.", daysToHarvest: "80-100", spacing_cm: 100 }
     ],
     herbs: [
       { name: "Perejil", emoji: "\ud83c\udf3f", notes: "Germina lento. Remojar semillas 24h antes." },
@@ -865,7 +892,10 @@ var gardenData = {
       { name: "Eneldo", emoji: "\ud83c\udf3f", notes: "Siembra directa. Atrae insectos beneficiosos." },
       { name: "Albahaca", emoji: "\ud83c\udf3f", notes: "Sembrar en interior. Trasplantar cuando noches >12\u00b0C." },
       { name: "Cebollino", emoji: "\ud83c\udf3f", notes: "Muy facil. Se puede dividir matas existentes." },
-      { name: "Menta", emoji: "\ud83c\udf3f", notes: "Plantar en maceta para evitar invasion. Le encanta la humedad de Vigo." }
+      { name: "Menta", emoji: "\ud83c\udf3f", notes: "Plantar en maceta para evitar invasion. Le encanta la humedad de Vigo." },
+      { name: "Romero", emoji: "\ud83c\udf3f", notes: "Plantar esqueje o planta. Resistente y perenne." },
+      { name: "Oregano", emoji: "\ud83c\udf3f", notes: "Perenne. Plantar ahora, crece bien en Vigo." },
+      { name: "Tomillo", emoji: "\ud83c\udf3f", notes: "Perenne. Prefiere suelo bien drenado y sol." }
     ]
   },
   plantingCalendar: {
@@ -937,6 +967,193 @@ var gardenData = {
           nov: { action: "rest", label: "Descanso" },
           dec: { action: "rest", label: "Descanso" }
         }
+      },
+      zanahoria: {
+        name: "\ud83e\udd55 Zanahoria",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "sow_protected", label: "Protegido" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "sow_direct", label: "Directo" },
+          jun: { action: "sow_direct", label: "Directo" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "sow_late", label: "Tard." },
+          oct: { action: "harvest", label: "Cosechar" },
+          nov: { action: "harvest_end", label: "Fin cosecha" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      patata: {
+        name: "\ud83e\udd54 Patata",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "sow_protected", label: "Protegido" },
+          mar: { action: "plant_sets", label: "Plantar" },
+          apr: { action: "plant_sets", label: "Plantar" },
+          may: { action: "grow_maintain", label: "Crecer" },
+          jun: { action: "grow_maintain", label: "Crecer" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "rest", label: "Descanso" },
+          oct: { action: "rest", label: "Descanso" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      guisantes: {
+        name: "\ud83d\udfe2 Guisantes",
+        schedule: {
+          jan: { action: "sow_protected", label: "Protegido" },
+          feb: { action: "sow_direct", label: "Directo" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "grow_maintain", label: "Crecer" },
+          may: { action: "harvest", label: "Cosechar" },
+          jun: { action: "harvest", label: "Cosechar" },
+          jul: { action: "rest", label: "Descanso" },
+          aug: { action: "rest", label: "Descanso" },
+          sep: { action: "sow_autumn", label: "Otono" },
+          oct: { action: "sow_autumn", label: "Otono" },
+          nov: { action: "grow_maintain", label: "Crecer" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      calabacin: {
+        name: "\ud83e\udd52 Calabacin",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "rest", label: "Descanso" },
+          mar: { action: "sow_indoors", label: "Interior" },
+          apr: { action: "sow_indoors", label: "Interior" },
+          may: { action: "transplant", label: "Trasplantar" },
+          jun: { action: "grow_maintain", label: "Crecer" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "harvest_end", label: "Fin cosecha" },
+          oct: { action: "rest", label: "Descanso" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      espinaca: {
+        name: "\ud83e\udd6c Espinaca",
+        schedule: {
+          jan: { action: "sow_protected", label: "Protegido" },
+          feb: { action: "sow_direct", label: "Directo" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "harvest", label: "Cosechar" },
+          jun: { action: "rest", label: "Descanso" },
+          jul: { action: "rest", label: "Descanso" },
+          aug: { action: "sow_late", label: "Tard." },
+          sep: { action: "sow_direct", label: "Directo" },
+          oct: { action: "sow_direct", label: "Directo" },
+          nov: { action: "sow_protected", label: "Protegido" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      acelga: {
+        name: "\ud83e\udd6c Acelga",
+        schedule: {
+          jan: { action: "sow_protected", label: "Protegido" },
+          feb: { action: "sow_protected", label: "Protegido" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "grow_maintain", label: "Crecer" },
+          jun: { action: "harvest", label: "Cosechar" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "sow_late", label: "Tard." },
+          sep: { action: "sow_direct", label: "Directo" },
+          oct: { action: "grow_maintain", label: "Crecer" },
+          nov: { action: "harvest", label: "Cosechar" },
+          dec: { action: "harvest_end", label: "Fin cosecha" }
+        }
+      },
+      judiaVerde: {
+        name: "\ud83e\uded8 Judia verde",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "rest", label: "Descanso" },
+          mar: { action: "rest", label: "Descanso" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "sow_direct", label: "Directo" },
+          jun: { action: "sow_direct", label: "Directo" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "harvest_end", label: "Fin cosecha" },
+          oct: { action: "rest", label: "Descanso" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      pepino: {
+        name: "\ud83e\udd52 Pepino",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "rest", label: "Descanso" },
+          mar: { action: "sow_indoors", label: "Interior" },
+          apr: { action: "sow_indoors", label: "Interior" },
+          may: { action: "transplant", label: "Trasplantar" },
+          jun: { action: "grow_maintain", label: "Crecer" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "harvest", label: "Cosechar" },
+          sep: { action: "harvest_end", label: "Fin cosecha" },
+          oct: { action: "rest", label: "Descanso" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      remolacha: {
+        name: "\ud83d\udfe3 Remolacha",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "sow_protected", label: "Protegido" },
+          mar: { action: "sow_direct", label: "Directo" },
+          apr: { action: "sow_direct", label: "Directo" },
+          may: { action: "sow_direct", label: "Directo" },
+          jun: { action: "harvest", label: "Cosechar" },
+          jul: { action: "harvest", label: "Cosechar" },
+          aug: { action: "sow_late", label: "Tard." },
+          sep: { action: "grow_maintain", label: "Crecer" },
+          oct: { action: "harvest", label: "Cosechar" },
+          nov: { action: "harvest_end", label: "Fin cosecha" },
+          dec: { action: "rest", label: "Descanso" }
+        }
+      },
+      grelo: {
+        name: "\ud83e\udd6c Grelo",
+        schedule: {
+          jan: { action: "harvest", label: "Cosechar" },
+          feb: { action: "harvest_end", label: "Fin cosecha" },
+          mar: { action: "rest", label: "Descanso" },
+          apr: { action: "rest", label: "Descanso" },
+          may: { action: "rest", label: "Descanso" },
+          jun: { action: "rest", label: "Descanso" },
+          jul: { action: "sow_direct", label: "Directo" },
+          aug: { action: "sow_direct", label: "Directo" },
+          sep: { action: "sow_direct", label: "Directo" },
+          oct: { action: "grow_maintain", label: "Crecer" },
+          nov: { action: "harvest", label: "Cosechar" },
+          dec: { action: "harvest", label: "Cosechar" }
+        }
+      },
+      fresa: {
+        name: "\ud83c\udf53 Fresa",
+        schedule: {
+          jan: { action: "rest", label: "Descanso" },
+          feb: { action: "rest", label: "Descanso" },
+          mar: { action: "plant_sets", label: "Plantar" },
+          apr: { action: "plant_sets", label: "Plantar" },
+          may: { action: "harvest", label: "Cosechar" },
+          jun: { action: "harvest", label: "Cosechar" },
+          jul: { action: "harvest_end", label: "Fin cosecha" },
+          aug: { action: "rest", label: "Descanso" },
+          sep: { action: "plant_sets", label: "Plantar" },
+          oct: { action: "grow_maintain", label: "Crecer" },
+          nov: { action: "rest", label: "Descanso" },
+          dec: { action: "rest", label: "Descanso" }
+        }
       }
     },
     legend: {
@@ -967,7 +1184,15 @@ var gardenData = {
     { name: "Arandano", emoji: "\ud83e\uded0", category: "Fruta", season: "summer", notes: "El suelo acido de Galicia (pH 4.5-5.5) es PERFECTO. Cultivo estrella de la region." },
     { name: "Kiwi", emoji: "\ud83e\udd5d", category: "Fruta", season: "autumn", notes: "Galicia es la mayor productora de kiwi de Espana. Necesita planta macho + hembra." },
     { name: "Vid Albarino", emoji: "\ud83c\udf47", category: "Fruta", season: "autumn", notes: "Uva nativa de Rias Baixas. Plantar ahora. Emparrar en parral tradicional." },
-    { name: "Limon", emoji: "\ud83c\udf4b", category: "Citrico", season: "year-round", notes: "Los inviernos suaves de Vigo permiten citricos al exterior. Meyer es el mas resistente." }
+    { name: "Limon", emoji: "\ud83c\udf4b", category: "Citrico", season: "year-round", notes: "Los inviernos suaves de Vigo permiten citricos al exterior. Meyer es el mas resistente." },
+    { name: "Pepino", emoji: "\ud83e\udd52", category: "Cucurbitacea", season: "spring-summer", notes: "Sembrar interior ahora. Trasplantar mayo. Tutorar para ahorrar espacio." },
+    { name: "Melon", emoji: "\ud83c\udf48", category: "Cucurbitacea", season: "summer", notes: "Posible en Vigo en veranos calidos. Sembrar interior, zona muy soleada y protegida." },
+    { name: "Sandia", emoji: "\ud83c\udf49", category: "Cucurbitacea", season: "summer", notes: "Desafiante en Galicia pero posible. Variedades pequenas (Sugar Baby) mejor." },
+    { name: "Nabo", emoji: "\ud83e\udd6c", category: "Raiz", season: "autumn-winter-spring", notes: "Muy rapido. Hojas (grelos de nabo) tan valiosas como la raiz." },
+    { name: "Ajo", emoji: "\ud83e\uddc4", category: "Bulbo", season: "autumn-winter-spring", notes: "Plantar dientes en otono o primavera temprana. Cosechar cuando hojas amarillean." },
+    { name: "Puerro", emoji: "\ud83e\udd6c", category: "Bulbo", season: "autumn-winter", notes: "Sembrar ahora, trasplantar en verano. Cosechar todo el invierno. Resistente al frio." },
+    { name: "Brocoli", emoji: "\ud83e\udd66", category: "Brassica", season: "autumn-winter-spring", notes: "Perfecto para Vigo. Sembrar ahora o en verano. Resiste bien el frio gallego." },
+    { name: "Coliflor", emoji: "\ud83e\udd66", category: "Brassica", season: "autumn-winter", notes: "Similar al brocoli. Sembrar primavera para otono o verano para invierno." }
   ],
   climateProfile: {
     advantages: [
@@ -1031,11 +1256,28 @@ function renderWeather() {
   var iconMap = { 'Clear': '\u2600\ufe0f', 'Sunny': '\u2600\ufe0f', 'Partly Cloudy': '\u26c5', 'Cloudy': '\u2601\ufe0f', 'Rain': '\ud83c\udf27\ufe0f', 'Storm': '\u26c8\ufe0f' };
   document.getElementById('weather-icon').textContent = iconMap[w.weatherDesc] || '\u2600\ufe0f';
   document.getElementById('weather-temp').textContent = w.temperature_C + '\u00b0C';
+  document.getElementById('weather-feels').textContent = (w.feelsLike_C || w.temperature_C) + '\u00b0C';
   document.getElementById('weather-humidity').textContent = w.humidity + '%';
   document.getElementById('weather-wind').textContent = w.windspeedKmph + ' km/h';
+  document.getElementById('weather-pressure').textContent = (w.pressure_mb || '--') + ' mb';
   document.getElementById('weather-sunrise').textContent = w.sunrise;
   document.getElementById('weather-sunset').textContent = w.sunset;
   document.getElementById('weather-daylight').textContent = w.daylight_hours + 'h';
+
+  // 3-day forecast
+  if (w.forecast) {
+    var dayNames = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
+    document.getElementById('weather-forecast').innerHTML =
+      '<div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:0.5rem">Proximos dias</div>' +
+      w.forecast.map(function(f) {
+        var d = new Date(f.date + 'T12:00:00');
+        var day = dayNames[d.getDay()] + ' ' + d.getDate();
+        return '<div style="display:flex;justify-content:space-between;font-size:0.85rem;padding:0.2rem 0">' +
+          '<span>' + day + '</span>' +
+          '<span><strong>' + f.maxC + '\u00b0</strong> / ' + f.minC + '\u00b0</span>' +
+          '<span style="color:var(--text-muted)">' + f.rain + ' lluvia</span></div>';
+      }).join('');
+  }
 }
 
 // ============================================================
